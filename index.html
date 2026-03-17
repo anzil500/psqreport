@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petsouq Management Report: 17-Day Performance Sprint</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .progress-bar-fill {
+            transition: width 1s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <!-- 
+      PALETTE: Brilliant Blues & Energetic Accents
+      Primary: #1D4ED8 (Blue)
+      Secondary: #06B6D4 (Cyan)
+      Accent: #F97316 (Orange)
+      Success: #10B981 (Green)
+      Danger: #EF4444 (Red)
+
+      NARRATIVE PLAN:
+      1. Hero/Header: Establish context (Dates, Focus).
+      2. Executive KPIs: High-level financial impact (Inform goal).
+      3. Channel Performance: Deep dive into revenue and volume by platform (Compare goal).
+      4. Aggregator Health: Listing completion and stock availability (Composition/Compare goal).
+      5. Operations & Roadblocks: Clear status of pending technical and administrative tasks (Organize goal).
+
+      CHART CHOICES & JUSTIFICATION (NO SVG CONFIRMED):
+      - Channel Revenue: Horizontal Bar Chart (Chart.js Canvas) - Best for comparing values across multiple distinct categories.
+      - Order Volume Share: Doughnut Chart (Chart.js Canvas) - Best for showing composition and proportion of total orders.
+      - Inventory Status: Stacked Bar Chart (Chart.js Canvas) - Best for showing part-to-whole relationships (Active vs OOS) across multiple platforms simultaneously.
+      
+      EXPLICIT CONFIRMATION: NEITHER Mermaid JS NOR SVG were used anywhere in the output.
+    -->
+
+    <header class="bg-gradient-to-r from-[#1D4ED8] to-[#06B6D4] text-white py-12 px-6 shadow-lg mb-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="uppercase tracking-widest text-sm font-semibold mb-2 text-cyan-200">Management Report</div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">Petsouq 17-Day<br>Performance Sprint</h1>
+            <div class="flex flex-wrap gap-4 mt-6">
+                <div class="bg-white/20 px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
+                    📅 March 1 – March 17, 2026
+                </div>
+                <div class="bg-white/20 px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
+                    🏢 Chief of Staff Office
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6">
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-4 text-[#1D4ED8]">1. Financial Executive Summary</h2>
+            <p class="text-lg text-slate-600 mb-8 max-w-3xl">
+                The sprint yielded robust top-line metrics, demonstrating strong order volume across our diverse sales channels. The following Key Performance Indicators (KPIs) highlight the financial velocity achieved over the 17-day period.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card rounded-2xl p-6 shadow-xl border-t-4 border-[#1D4ED8] transform hover:-translate-y-1 transition-transform">
+                    <div class="text-4xl mb-2">💰</div>
+                    <div class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Total Gross Sales</div>
+                    <div class="text-3xl font-extrabold text-[#1E293B]">87,053.97 <span class="text-lg text-slate-400">AED</span></div>
+                    <div class="mt-4 text-sm text-slate-600 bg-slate-100 p-2 rounded-lg">Based on ordered value.</div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 shadow-xl border-t-4 border-[#06B6D4] transform hover:-translate-y-1 transition-transform">
+                    <div class="text-4xl mb-2">🧾</div>
+                    <div class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Invoiced Revenue</div>
+                    <div class="text-3xl font-extrabold text-[#1E293B]">72,470.46 <span class="text-lg text-slate-400">AED</span></div>
+                    <div class="mt-4 text-sm text-[#06B6D4] font-medium bg-cyan-50 p-2 rounded-lg">68,897.81 AED (Untaxed)</div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 shadow-xl border-t-4 border-[#F97316] transform hover:-translate-y-1 transition-transform">
+                    <div class="text-4xl mb-2">📦</div>
+                    <div class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Total Volume</div>
+                    <div class="text-3xl font-extrabold text-[#1E293B]">2,062 <span class="text-lg text-slate-400">Units</span></div>
+                    <div class="mt-4 text-sm text-slate-600 bg-slate-100 p-2 rounded-lg">Distributed across 666 orders.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-4 text-[#1D4ED8]">2. Revenue by Channel</h2>
+            <p class="text-lg text-slate-600 mb-8 max-w-3xl">
+                Amazon Storefront (SF) and Instashop emerged as the dominant drivers of both revenue and volume during this sprint. The data below outlines the performance breakdown across our top 5 revenue-generating channels.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Top 5 Channels by Revenue (AED)</h3>
+                    <p class="text-sm text-slate-500 mb-6">Amazon SF leads with over 24k AED, followed closely by Instashop.</p>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Order Volume Distribution</h3>
+                    <p class="text-sm text-slate-500 mb-6">Instashop and Amazon SF account for the vast majority of transactional volume.</p>
+                    <div class="chart-container">
+                        <canvas id="ordersChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-4 text-[#1D4ED8]">3. Product Listing & Aggregator Status</h2>
+            <p class="text-lg text-slate-600 mb-8 max-w-3xl">
+                Ensuring maximum catalog visibility is critical. Both Talabat and Instashop are showing healthy listing completion rates (>90%), though inventory sync and out-of-stock (OOS) items require ongoing optimization.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-2xl shadow-lg p-6 border-l-8 border-[#EF4444]">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold">Talabat</h3>
+                        <span class="text-2xl font-black text-[#EF4444]">93%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-3 mb-6">
+                        <div class="bg-[#EF4444] h-3 rounded-full" style="width: 93%"></div>
+                    </div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex justify-between p-3 bg-slate-50 rounded-lg">
+                            <span class="font-medium text-slate-600">Total Listed</span>
+                            <span class="font-bold">6,630</span>
+                        </li>
+                        <li class="flex justify-between p-3 bg-green-50 rounded-lg">
+                            <span class="font-medium text-green-700">Active Listings</span>
+                            <span class="font-bold text-green-700">3,864</span>
+                        </li>
+                    </ul>
+                    <div class="bg-slate-800 text-white p-4 rounded-xl text-sm">
+                        <strong class="text-cyan-300 block mb-1">Actions Taken:</strong>
+                        Account Reactivation In-Process, Inventory Sync Initiated, New Pricing Updated.
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-6 border-l-8 border-[#F97316]">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold">Instashop</h3>
+                        <span class="text-2xl font-black text-[#F97316]">91%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 rounded-full h-3 mb-6">
+                        <div class="bg-[#F97316] h-3 rounded-full" style="width: 91%"></div>
+                    </div>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex justify-between p-3 bg-slate-50 rounded-lg">
+                            <span class="font-medium text-slate-600">Total Listed</span>
+                            <span class="font-bold">6,232</span>
+                        </li>
+                        <li class="flex justify-between p-3 bg-green-50 rounded-lg">
+                            <span class="font-medium text-green-700">Active Listings</span>
+                            <span class="font-bold text-green-700">3,466</span>
+                        </li>
+                    </ul>
+                    <div class="bg-slate-800 text-white p-4 rounded-xl text-sm">
+                        <strong class="text-cyan-300 block mb-1">Actions Taken:</strong>
+                        New Pricing Updated and Verified securely across the platform.
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 w-full">
+                <h3 class="text-xl font-bold mb-2 text-slate-800">Inventory Health: Active vs Out-of-Stock</h3>
+                <p class="text-sm text-slate-500 mb-6">Both platforms currently share a baseline of 2,766 out-of-stock items that represent the immediate ceiling for listing expansion.</p>
+                <div class="chart-container md:h-[300px] max-w-4xl">
+                    <canvas id="inventoryChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-4 text-[#1D4ED8]">4. Operations & Roadblocks</h2>
+            <p class="text-lg text-slate-600 mb-8 max-w-3xl">
+                Current operational status highlighting technical development, critical deployment blockers, and successfully completed administrative handovers.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="bg-red-50 rounded-2xl p-6 border border-red-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 text-8xl opacity-10">🚨</div>
+                    <div class="text-red-600 font-bold uppercase tracking-wider text-xs mb-3">Critical Blocker</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Website Deployment</h3>
+                    <p class="text-slate-700 mb-4 font-medium">Blocked by ongoing ERP Auditing dependency.</p>
+                    <div class="bg-white p-3 rounded-lg text-sm text-slate-600 shadow-inner">
+                        Requires immediate resolution to unblock the D2C channel roadmap.
+                    </div>
+                </div>
+
+                <div class="bg-orange-50 rounded-2xl p-6 border border-orange-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 text-8xl opacity-10">⏳</div>
+                    <div class="text-orange-600 font-bold uppercase tracking-wider text-xs mb-3">In Development</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Noon NowNow</h3>
+                    <p class="text-slate-700 mb-4 font-medium">Inventory Sync Module currently in development.</p>
+                    <div class="bg-white p-3 rounded-lg text-sm text-slate-600 shadow-inner">
+                        Pending module completion to automate stock updates and prevent overselling.
+                    </div>
+                </div>
+
+                <div class="bg-emerald-50 rounded-2xl p-6 border border-emerald-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 text-8xl opacity-10">✅</div>
+                    <div class="text-emerald-600 font-bold uppercase tracking-wider text-xs mb-3">Completed Handovers</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Credentials Transferred</h3>
+                    <p class="text-slate-700 mb-4 font-medium text-sm">Transferred to Accounts/Admin:</p>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-slate-700 font-medium">
+                        <div class="flex items-center gap-1"><span>✔️</span> Amazon Seller</div>
+                        <div class="flex items-center gap-1"><span>✔️</span> Amazon Vendor</div>
+                        <div class="flex items-center gap-1"><span>✔️</span> Noon FBN</div>
+                        <div class="flex items-center gap-1"><span>✔️</span> Noon NowNow</div>
+                        <div class="flex items-center gap-1"><span>✔️</span> Talabat</div>
+                        <div class="flex items-center gap-1"><span>✔️</span> ERP</div>
+                        <div class="flex items-center gap-1 col-span-2"><span>✔️</span> Google Workspace</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            function wrapLabels(labels, maxChars = 16) {
+                return labels.map(label => {
+                    if (label.length <= maxChars) return label;
+                    const words = label.split(' ');
+                    let lines = [];
+                    let currentLine = '';
+                    words.forEach(word => {
+                        if ((currentLine + word).length > maxChars) {
+                            if (currentLine) lines.push(currentLine.trim());
+                            currentLine = word + ' ';
+                        } else {
+                            currentLine += word + ' ';
+                        }
+                    });
+                    if (currentLine) lines.push(currentLine.trim());
+                    return lines;
+                });
+            }
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { family: 'Inter', size: 12 },
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                // tooltipItems is an array, take the first item
+                                const item = tooltipItems[0];
+                                // Access the label using the item's datasetIndex and dataIndex
+                                let label = item.chart.data.labels[item.dataIndex];
+                                // Check if the label is an array (multiline)
+                                if (Array.isArray(label)) {
+                                  // Join the array elements with a space for display
+                                  return label.join(' ');
+                                } else {
+                                  // If it's a single line label, return it as is
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            const rawChannelLabels = ['Amazon SF', 'Instashop', 'Petsouq Direct', 'Amazon VC', 'Noon Seller'];
+            const channelLabels = wrapLabels(rawChannelLabels);
+            const channelRevenueData = [24590.41, 18957.53, 10538.78, 9733.77, 5470.02];
+            const channelOrdersData = [123, 103, 36, 3, 25];
+            
+            const bgColors = [
+                '#1D4ED8', 
+                '#06B6D4', 
+                '#F97316', 
+                '#8B5CF6', 
+                '#10B981'  
+            ];
+
+            const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctxRevenue, {
+                type: 'bar',
+                data: {
+                    labels: channelLabels,
+                    datasets: [{
+                        label: 'Revenue (AED)',
+                        data: channelRevenueData,
+                        backgroundColor: bgColors,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    ...chartOptions,
+                    indexAxis: 'y', 
+                    scales: {
+                        x: {
+                            grid: { display: true, color: '#f1f5f9' },
+                            ticks: { font: { family: 'Inter' } }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', weight: 'bold' } }
+                        }
+                    }
+                }
+            });
+
+            const ctxOrders = document.getElementById('ordersChart').getContext('2d');
+            new Chart(ctxOrders, {
+                type: 'doughnut',
+                data: {
+                    labels: channelLabels,
+                    datasets: [{
+                        label: 'Total Orders',
+                        data: channelOrdersData,
+                        backgroundColor: bgColors,
+                        borderWidth: 2,
+                        borderColor: '#ffffff',
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    ...chartOptions,
+                    cutout: '65%'
+                }
+            });
+
+            const rawAggLabels = ['Talabat', 'Instashop'];
+            const aggLabels = wrapLabels(rawAggLabels);
+            
+            const ctxInventory = document.getElementById('inventoryChart').getContext('2d');
+            new Chart(ctxInventory, {
+                type: 'bar',
+                data: {
+                    labels: aggLabels,
+                    datasets: [
+                        {
+                            label: 'Active Listings',
+                            data: [3864, 3466],
+                            backgroundColor: '#10B981', 
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Out of Stock (OOS)',
+                            data: [2766, 2766],
+                            backgroundColor: '#F87171', 
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', weight: 'bold' } }
+                        },
+                        y: {
+                            stacked: true,
+                            grid: { display: true, color: '#f1f5f9' },
+                            ticks: { font: { family: 'Inter' } }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
